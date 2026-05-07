@@ -1,6 +1,8 @@
 import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from src.collectors.unified import collect_all
 from src.validators.health_checker import check_proxies
@@ -28,9 +30,12 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Proxy Aggregator API", version="1.0.0", lifespan=lifespan)
 
-@app.get("/")
-async def root():
-    return {"status": "online", "service": "Proxy Aggregator"}
+app.mount("/static", StaticFiles(directory="api/static"), name="static")
+
+@app.get("/", response_class=HTMLResponse)
+async def dashboard():
+    with open("api/templates/dashboard.html", "r") as f:
+        return f.read()
 
 @app.get("/health")
 async def health():

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy Aggregator Dashboard</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 Proxy Aggregator</h1>
+            <p>Sistema de coleta e validação de proxies</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card total">
+                <h3>Total Vivos</h3>
+                <p class="stat-number" id="totalProxies">0</p>
+            </div>
+            <div class="stat-card socks5">
+                <h3>SOCKS5</h3>
+                <p class="stat-number" id="socks5Count">0</p>
+            </div>
+            <div class="stat-card http">
+                <h3>HTTP/HTTPS</h3>
+                <p class="stat-number" id="httpCount">0</p>
+            </div>
+            <div class="stat-card socks4">
+                <h3>SOCKS4</h3>
+                <p class="stat-number" id="socks4Count">0</p>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>📊 Proxies por Protocolo</h3>
+                <canvas id="protocolChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>⚡ Latência Média</h3>
+                <canvas id="latencyChart"></canvas>
+            </div>
+        </div>
+
+        <div class="proxies-section">
+            <div class="section-header">
+                <h3>📋 Lista de Proxies</h3>
+                <div class="filters">
+                    <select id="protocolFilter">
+                        <option value="">Todos</option>
+                        <option value="socks5">SOCKS5</option>
+                        <option value="http">HTTP</option>
+                        <option value="socks4">SOCKS4</option>
+                    </select>
+                    <input type="text" id="searchProxy" placeholder="Buscar IP...">
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="proxiesTable">
+                    <thead>
+                        <tr>
+                            <th>IP</th>
+                            <th>Porta</th>
+                            <th>Protocolo</th>
+                            <th>Latência</th>
+                            <th>Última Verificação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="proxiesBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <footer>
+            <p>Atualizado em: <span id="lastUpdate">--</span></p>
+            <button onclick="refreshData()">🔄 Atualizar</button>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
